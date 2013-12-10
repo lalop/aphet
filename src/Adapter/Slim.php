@@ -1,8 +1,8 @@
 <?php
 
-namespace Assets\Adapter;
+namespace Aphet\Adapter;
 
-use Assets\AbstractRequestHandler;
+use Aphet\AbstractRequestHandler;
 
 class Slim extends AbstractRequestHandler
 {

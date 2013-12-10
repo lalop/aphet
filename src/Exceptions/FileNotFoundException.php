@@ -1,5 +1,5 @@
 <?php
 
-namespace Assets\Exceptions;
+namespace Aphet\Exceptions;
 
 class FileNotFoundException extends \Exception{}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Assets;
+namespace Aphet;
 
 use Assetic\AssetWriter;
 use Assetic\Factory\LazyAssetManager;

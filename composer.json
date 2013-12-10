@@ -7,5 +7,10 @@
 		"kriswallsmith/assetic": "1.2.*@dev",
 		"natxet/CssMin": "dev-master",
 		"mrclay/minify": "dev-master"
-	}
+	},
+    "autoload": {
+        "psr-4": {
+            "Aphet": "src"
+        }
+    }
 }

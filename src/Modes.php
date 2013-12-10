@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Assets;
+namespace Aphet;
 
 
 class Modes 

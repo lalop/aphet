@@ -1,6 +1,6 @@
 <?php
 
-namespace Assets;
+namespace Aphet;
 
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\StringAsset;
