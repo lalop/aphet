@@ -9,7 +9,7 @@
 		"mrclay/minify": "dev-master"
 	},
     "autoload": {
-        "psr-4": {
+        "psr-0": {
             "Aphet": "src"
         }
     }
