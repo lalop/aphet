@@ -47,7 +47,7 @@ class Manager
             $req->initRequestHandler( $this );
         }
         
-        include_once __DIR__ . '/functions.php';
+        include_once __DIR__ . '/../functions.php';
         aphet_init( $this );
         
     }

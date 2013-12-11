@@ -2,7 +2,7 @@
 
 $aphet_manager;
 
-function aphet_init( \Aphets\Manager $manager)
+function aphet_init( \Aphet\Manager $manager)
 {
     global $aphets_manager;
     $aphets_manager = $manager;
