@@ -48,7 +48,7 @@ class Manager
         }
         
         include_once __DIR__ . '/functions.php';
-        asset_init( $this );
+        aphet_init( $this );
         
     }
     

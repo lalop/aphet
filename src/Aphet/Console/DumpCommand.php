@@ -54,7 +54,7 @@ class DumpCommand extends Command
     }
     
     /**
-     * We search for call to asset_... in php file and template
+     * We search for call to aphet_... in php file and template
      * then we compile recursivly what's needed
      */
     private function compileAssets()
@@ -85,7 +85,7 @@ class DumpCommand extends Command
         while(isset($tokens[$i])){
             $token = $tokens[$i];
 
-            if( $token[0] === T_STRING && strpos($token[1],'assets_') === 0 ){
+            if( $token[0] === T_STRING && strpos($token[1],'aphet_') === 0 ){
                 $function = $token[1];
                 $args = array();
                 $i++; // on passe la parenthèse ouvrante
