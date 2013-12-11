@@ -17,7 +17,7 @@ class Slim extends AbstractRequestHandler
         $this->app = $app;
     }
     
-    public function initRequestHandler( \Assets\Manager $manager )
+    public function initRequestHandler( \Aphet\Manager $manager )
     {
         parent::initRequestHandler( $manager );
         $this->app->get("/{$this->manager->settings['web_path']}/:path", array($this, 'request'))

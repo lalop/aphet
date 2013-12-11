@@ -41,11 +41,11 @@ abstract class AbstractRequestHandler
     );
     
     /**
-     * @var \Assets\Manager
+     * @var \Aphet\Manager
      */
     protected $manager;
     
-    public function initRequestHandler( \Assets\Manager $manager )
+    public function initRequestHandler( \Aphet\Manager $manager )
     {
         $this->manager = $manager;
     }   

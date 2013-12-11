@@ -13,11 +13,11 @@ class DumpCommand extends Command
     
     private $assetPath;
     /**
-     * @var \Assets\Manager
+     * @var \Aphet\Manager
      */
     private $assetManager;
     
-    public function __construct( \Assets\Manager $asset_manager )
+    public function __construct( \Aphet\Manager $asset_manager )
     {
         $this->assetManager = $asset_manager;
         parent::__construct();
