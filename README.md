@@ -1,4 +1,8 @@
 aphet
 =====
 
-pure php asset pipeline on top of assetic
+Pure php asset pipeline on top of assetic with minimal configuration.
+
+``` php
+<?php
+ 

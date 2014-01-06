@@ -3,7 +3,7 @@
 	"require": {
 		"php": ">=5.4",
 		"symfony/console": "2.2.*@dev",
-		"leafo/scssphp": "dev-master",
+		"leafo/scssphp": "v0.0.9",
 		"kriswallsmith/assetic": "1.2.*@dev",
 		"natxet/CssMin": "dev-master",
 		"mrclay/minify": "dev-master"
