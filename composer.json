@@ -5,7 +5,7 @@
 		"symfony/console": "2.2.*@dev",
 		"leafo/scssphp": "v0.0.9",
 		"kriswallsmith/assetic": "dev-master",
-		"natxet/CssMin": "dev-master",
+		"natxet/CssMin": ">=3",
 		"mrclay/minify": "dev-master"
 	},
     "autoload": {
