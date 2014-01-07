@@ -151,7 +151,7 @@ class Manager
                 if( $this->settings['modes'] & Modes::MINIFY ) {
                     switch ( $ext ) {
                     case '.css':
-                        $asset->ensureFilter( new \Assetic\Filter\CSSMinFilter() );    
+                        $asset->ensureFilter( new \Assetic\Filter\CssMinFilter() );    
                         break;
                     case '.js' :
                         $asset->ensureFilter( new \Assetic\Filter\JSMinFilter() );
