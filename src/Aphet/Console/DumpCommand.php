@@ -78,10 +78,7 @@ class DumpCommand extends Command
     {
         $tokens = token_get_all(file_get_contents($file));
         $i = 0;
-        \Slim\Environment::mock(array(
-            'SCRIPT_NAME' => \Config::get('app_path')
-        ));
-        
+
         while(isset($tokens[$i])){
             $token = $tokens[$i];
 
