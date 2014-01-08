@@ -19,18 +19,18 @@ class Manager
     private function __construct(array $settings)
     {
         
+        $this->settings = array_merge(array(
+            'modes' => Modes::DEV,
+            'assets_paths' => array(),
+            'web_path' => 'assets',
+        ), $settings );
+        
         if( !isset($settings['public_path']) || !file_exists($settings['public_path']) ) {
             throw new Exceptions\PublicPathNotFoundException("public path {$settings['public_path']} not found");
         }
         if( !is_writable($settings['public_path']) && !is_writable($settings['public_path'] .'/'. $this->settings['web_path'])) {
             throw new Exceptions\PublicPathNotWritableException("Can't write in public path {$settings['public_path']}");
         }
-        
-        $this->settings = array_merge(array(
-            'modes' => Modes::DEV,
-            'assets_paths' => array(),
-            'web_path' => 'assets',
-        ), $settings );
         
         if( !isset($this->settings['cache_file']) ) {
             $this->settings['cache_file'] = implode( DIRECTORY_SEPARATOR, array(
