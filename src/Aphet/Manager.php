@@ -22,7 +22,7 @@ class Manager
         if( !isset($settings['public_path']) || !file_exists($settings['public_path']) ) {
             throw new Exceptions\PublicPathNotFoundException("public path {$settings['public_path']} not found");
         }
-        if( !is_writable($settings['public_path']) ) {
+        if( !is_writable($settings['public_path']) && !is_writable($settings['public_path'] .'/'. $this->settings['web_path'])) {
             throw new Exceptions\PublicPathNotWritableException("Can't write in public path {$settings['public_path']}");
         }
         
