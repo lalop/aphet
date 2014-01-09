@@ -148,7 +148,7 @@ class Manager
             $web_path = implode( '/', $target_path ) ;
 
             $asset->setTargetPath( $web_path );
-            if( !file_exists( $asset->getTargetPath() ) ){
+            if( !file_exists( $this->settings['public_path'] . $this->settings['web_path'] .'/'. $asset->getTargetPath() ) ){
                 
                 if( $this->settings['modes'] & Modes::MINIFY ) {
                     switch ( $ext ) {
