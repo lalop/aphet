@@ -3,6 +3,7 @@
 namespace Aphet;
 
 use Assetic\Filter\ScssphpFilter;
+use Assetic\Factory\AssetFactory;
 
 class ScssFilterFix extends ScssphpFilter
 {
