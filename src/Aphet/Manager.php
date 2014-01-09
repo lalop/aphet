@@ -124,7 +124,9 @@ class Manager
         }
         foreach( $paths as $p ) {
             $file = $this->loader->fromAppPath( $p );
-            $asset = $file->asset();
+            $asset = $file->asset ([
+                'compass' => $this->settings['modes'] & Modes::COMPASS
+            ]);
             $ext = str_replace(array('sass','scss'), 'css', File::getExt($p) );
             $filename = substr( $p, 0, strrpos( $p, '.' ) );
 

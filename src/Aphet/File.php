@@ -20,12 +20,13 @@ class File
      * @param $path String target path
      * @return \Assetic\Filter\FileAsset
      */
-    public function asset( )
+    public function asset( $opts = array() )
     {
         $asset = new FileAsset( $this->real_path );
         $ext = strtolower( substr( $this->real_path, strrpos( $this->real_path, '.' )));
         if( in_array( $ext, array('.css','.scss') ) ){//il faut rajouter la méthode asset-url
             $scss = new  \Assetic\Filter\ScssphpFilter();
+            if(isset($opts['compass']) && $opts['compass']) $scss->enableCompass( true );
             $scss->registerFunction('aphet_url',function($args,$scss) {
                 if($args[0][0] === 'string'){
                     $url = is_array($args[0][2][0]) ? $args[0][2][0][2][0] : $args[0][2][0];

@@ -12,5 +12,8 @@
         "psr-0": {
             "Aphet": "src"
         }
+    },
+    "suggest": {
+        "leafo/scssphp-compass": "Aphet provides the integration with the SCSS compass plugin"
     }
 }

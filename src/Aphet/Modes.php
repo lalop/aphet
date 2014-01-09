@@ -11,6 +11,8 @@ class Modes
     const MINIFY = 0b010;
     const CACHE = 0b100;
     
+    const COMPASS = 0b1000;
+    
     const PROD = 0b111; // all
     const DEV = 0b000;
     
