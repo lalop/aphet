@@ -4,7 +4,7 @@ namespace Aphet;
 
 use Assetic\Filter\ScssphpFilter;
 
-class ScssFilterFix implements ScssphpFilter
+class ScssFilterFix extends ScssphpFilter
 {
 
     public function getChildren(AssetFactory $factory, $content, $loadPath = null)
