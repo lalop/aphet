@@ -32,7 +32,7 @@ class DumpCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->assetPath = $this->assetManager->settings['public_path'] .'/public/assets'; 
+        $this->assetPath = $this->assetManager->settings['public_path'] .'/'. $this->assetManager->settings['web_path']; 
         $this->output = $output;
         $this->removeAssets();
         $this->compileAssets();
@@ -51,6 +51,7 @@ class DumpCommand extends Command
             }
         };
         rm($this->assetPath);
+        $this->output->writeln("{$this->assetPath} cleaned");
     }
     
     /**
