@@ -25,18 +25,18 @@ class Manager
             'web_path' => 'assets',
         ), $settings );
         
-        if(isset($settings['public_path'])) $this->settings['web_root'] = $settings['public_path']; 
+        if(isset($settings['public_path'])) $this->settings['public_path'] = $settings['public_path']; 
         
-        if( !isset($settings['web_root']) || !file_exists($settings['web_root']) ) {
-            throw new Exceptions\PublicPathNotFoundException("public path {$settings['web_root']} not found");
+        if( !isset($settings['public_path']) || !file_exists($settings['public_path']) ) {
+            throw new Exceptions\PublicPathNotFoundException("public path {$settings['public_path']} not found");
         }
-        if( !is_writable($settings['web_root']) && !is_writable($settings['web_root'] .'/'. $this->settings['web_path'])) {
-            throw new Exceptions\PublicPathNotWritableException("Can't write in public path {$settings['web_root']}");
+        if( !is_writable($settings['public_path']) && !is_writable($settings['public_path'] .'/'. $this->settings['web_path'])) {
+            throw new Exceptions\PublicPathNotWritableException("Can't write in public path {$settings['public_path']}");
         }
         
         if( !isset($this->settings['cache_file']) ) {
             $this->settings['cache_file'] = implode( DIRECTORY_SEPARATOR, array(
-                $this->settings['web_root'],
+                $this->settings['public_path'],
                 $this->settings['web_path'],
                 'cache.php'
             ));
@@ -101,7 +101,7 @@ class Manager
         }
         
         $manager = $this;
-        $urls = array_map( function( $url ) use( $manager ){
+        $urls = array_map( function( $url ) use( $manager ){var_dump($url);die();
             return $manager->settings['request_handler']->urlFor( $url );
         }, $urls );
         
@@ -150,7 +150,7 @@ class Manager
             $web_path = implode( '/', $target_path ) ;
 
             $asset->setTargetPath( $web_path );
-            if( !file_exists( $this->settings['web_root'] . $this->settings['web_path'] .'/'. $asset->getTargetPath() ) ){
+            if( !file_exists( $this->settings['public_path'] . $this->settings['web_path'] .'/'. $asset->getTargetPath() ) ){
                 
                 if( $this->settings['modes'] & Modes::MINIFY ) {
                     switch ( $ext ) {
@@ -162,7 +162,7 @@ class Manager
                         break;
                     }
                 }
-                $writer = new AssetWriter( $this->settings['web_root'] . $this->settings['web_path'] );
+                $writer = new AssetWriter( $this->settings['public_path'] . $this->settings['web_path'] );
                 $writer->writeAsset( $asset );
             }
         }
