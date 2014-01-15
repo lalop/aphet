@@ -101,7 +101,7 @@ class Manager
         }
         
         $manager = $this;
-        $urls = array_map( function( $url ) use( $manager ){var_dump($url);die();
+        $urls = array_map( function( $url ) use( $manager ){
             return $manager->settings['request_handler']->urlFor( $url );
         }, $urls );
         
