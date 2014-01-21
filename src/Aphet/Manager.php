@@ -25,6 +25,10 @@ class Manager
             'web_path' => 'assets',
         ), $settings );
         
+        if(substr($this->settings['web_path'],0,1) === '/') {
+            $this->settings['web_path'] = substr($this->settings['web_path'], 1);
+        }
+        
         if(isset($settings['public_path'])) $this->settings['public_path'] = $settings['public_path']; 
         
         if( !isset($settings['public_path']) || !file_exists($settings['public_path']) ) {
@@ -162,7 +166,7 @@ class Manager
                         break;
                     }
                 }
-                $writer = new AssetWriter( $this->settings['public_path'] . $this->settings['web_path'] );
+                $writer = new AssetWriter( $this->settings['public_path'] .'/'. $this->settings['web_path'] );
                 $writer->writeAsset( $asset );
             }
         }
