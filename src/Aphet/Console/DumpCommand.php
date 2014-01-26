@@ -136,7 +136,7 @@ class DumpCommand extends Command
                 $split = explode(']', $match);
                 $match = $split[0] . ']';
                 $split = explode(',', $split[1]);
-                $name = $split[1];
+                $name = json_decode(str_replace("'",'"',$split[1]));
             }
             $urls = json_decode($match);
             $this->assetManager->computeAssetsUrl($urls,$name);
