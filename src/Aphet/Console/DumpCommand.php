@@ -60,7 +60,7 @@ class DumpCommand extends Command
      */
     private function compileAssets()
     {   
-        foreach ($this->assetManager->settings['php_extract'] as $path) {
+        foreach ($this->assetManager->settings['extract'] as $path) {
             $this->searchPhpFiles( $path );
         }
     }
@@ -68,13 +68,19 @@ class DumpCommand extends Command
     private function searchPhpFiles( $path )
     {
         if (!in_array($path, array('/','../','..')) && file_exists($path)){
-            if(is_dir(($path))) array_map(array($this,__FUNCTION__), glob($path.'/*'));
-            elseif ( '.php' ===  strtolower(substr($path,strrpos($path,"."))) ) {
+            if(is_dir(($path))){
+                 //array_map(array($this,__FUNCTION__), glob($path.'/*'));
+                foreach(glob($path.'/*') as $p) $this->searchPhpFiles($p);
+            } elseif ( '.php' ===  strtolower(substr($path,strrpos($path,"."))) ) {
                 $this->output->writeln("extract in {$path}");
                 $this->extractAssetMethods($path);
+            } else {
+                $this->output->writeln("extract in {$path}");
+                $this->twigExtractAssetMethods($path);
             }
         }
     }
+    
     private function extractAssetMethods( $file )
     {
         $tokens = token_get_all(file_get_contents($file));
@@ -121,7 +127,24 @@ class DumpCommand extends Command
         }
     }
 
+    private function twigExtractAssetMethods( $file )
+    {
+        preg_replace_callback('/aphet_[url|script|link]*\((.*)\)/', function( $match ) {
+            $match = str_replace("'",'"', $match[1]);
+            $name = null;
+            if(substr($match, 0,1) === '[' && substr($match, -1) !== ']'){
+                $split = explode(']', $match);
+                $match = $split[0] . ']';
+                $split = explode(',', $split[1]);
+                $name = $split[1];
+            }
+            $urls = json_decode($match);
+            $this->assetManager->computeAssetsUrl($urls,$name);
+        },  file_get_contents($file ) );
+    }
+
     private function cleanString( $str ){
         return substr($str, 1, strlen($str)-2);
     }
+    
 }
