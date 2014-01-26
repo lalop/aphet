@@ -50,6 +50,10 @@ class DumpCommand extends Command
                     array_map(__FUNCTION__, glob($path.'/*')) == rmdir($path);
             }
         };
+        
+        if($this->assetManager->settings['cache_file']){
+            rm($this->assetManager->settings['cache_file']);
+        }
         rm($this->assetPath);
         $this->output->writeln("{$this->assetPath} cleaned");
     }
