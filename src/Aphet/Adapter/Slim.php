@@ -33,7 +33,7 @@ class Slim extends AbstractRequestHandler
     public function urlFor( $path )
     {
         return $this->app->urlFor( 'assets', array(
-            'path' => $path
+            'path' => trim($path,'/')
         ));
     }
     
