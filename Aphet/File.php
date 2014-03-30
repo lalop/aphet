@@ -4,7 +4,7 @@ namespace Aphet;
 
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\StringAsset;
-
+use Assetic\Filter\ScssphpFilter;
 
 class File
 {
@@ -25,7 +25,7 @@ class File
         $asset = new FileAsset( $this->real_path );
         $ext = strtolower( substr( $this->real_path, strrpos( $this->real_path, '.' )));
         if( in_array( $ext, array('.css','.scss') ) ){//il faut rajouter la méthode asset-url
-            $scss = new  ScssFilterFix();
+            $scss = new  ScssphpFilter();
             if(isset($opts['compass']) && $opts['compass']) $scss->enableCompass( true );
             $scss->registerFunction('aphet_url',function($args,$scss) {
                 if($args[0][0] === 'string'){

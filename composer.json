@@ -9,11 +9,15 @@
 		"mrclay/minify": "2.*"
 	},
     "autoload": {
-        "psr-0": {
-            "Aphet": "src"
+        "psr-4": {
+            "Aphet\\": "src"
         }
     },
     "suggest": {
         "leafo/scssphp-compass": "Aphet provides the integration with the SCSS compass plugin"
+    },
+    "require-dev": {
+        "mikey179/vfsStream": "v1.2.0",
+        "phpunit/phpunit": "3.*"
     }
 }
