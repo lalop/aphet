@@ -10,20 +10,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DumpCommand extends Command
 {
-    
+
     private $assetPath;
     /**
      * @var \Aphet\Manager
      */
     private $assetManager;
-    
+
     public function __construct( \Aphet\Manager $asset_manager )
     {
         $this->assetManager = $asset_manager;
         parent::__construct();
     }
 
-    
+
     protected function configure()
     {
         $this->setName('asset:dump')
@@ -32,38 +32,39 @@ class DumpCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->assetPath = $this->assetManager->settings['public_path'] .'/'. $this->assetManager->settings['web_path']; 
+        $this->assetPath = $this->assetManager->settings['public_path'] .'/'. $this->assetManager->settings['web_path'];
         $this->output = $output;
         $this->removeAssets();
         $this->compileAssets();
     }
-    
+
     /**
      * @FIX file starting with dot no removed
      */
     private function removeAssets()
     {
         function rm($path){
-            if (!in_array($path, array('/','../','..')) && file_exists($path)){
+            $end_path = substr($path, strrpos($path, '/'));
+            if (!in_array($end_path, array('/','/.','/..')) && file_exists($path)){
                 is_file($path) ?
                     unlink($path) :
-                    array_map(__FUNCTION__, glob($path.'/*')) == rmdir($path);
+                    array_map(__FUNCTION__, glob($path.'/{*,.*}',GLOB_BRACE)) == rmdir($path);
             }
-        };
-        
+        }
+
         if($this->assetManager->settings['cache_file']){
             rm($this->assetManager->settings['cache_file']);
         }
         rm($this->assetPath);
         $this->output->writeln("{$this->assetPath} cleaned");
     }
-    
+
     /**
      * We search for call to aphet_... in php file and template
      * then we compile recursivly what's needed
      */
     private function compileAssets()
-    {   
+    {
         foreach ($this->assetManager->settings['extract'] as $path) {
             $this->searchPhpFiles( $path );
         }
@@ -84,7 +85,7 @@ class DumpCommand extends Command
             }
         }
     }
-    
+
     private function extractAssetMethods( $file )
     {
         $tokens = token_get_all(file_get_contents($file));
@@ -117,11 +118,11 @@ class DumpCommand extends Command
                         $args[] = $this->cleanString($token[1]);
                     }
                 }while(isset($tokens[$i]));
-                
+
                 $stringify = json_encode($args);
                 $this->output->writeln("<info>compile: {$stringify} </info>");
                 $urls = call_user_func_array(array(
-                        $this->assetManager, 
+                        $this->assetManager,
                         'computeAssetsUrl'
                     ), $args);
                 $stringify = json_encode($urls);
@@ -150,5 +151,5 @@ class DumpCommand extends Command
     private function cleanString( $str ){
         return substr($str, 1, strlen($str)-2);
     }
-    
+
 }
