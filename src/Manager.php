@@ -19,11 +19,11 @@ class Manager
     private function __construct(array $settings)
     {
 
-        $this->settings = array_merge(array(
+        $this->settings = array_merge($settings, array(
             'modes' => Modes::DEV,
             'assets_paths' => array(),
-            'web_path' => 'assets',
-        ), $settings );
+            'web_path' => '/assets',
+        ));
 
         if(substr($this->settings['web_path'],0,1) === '/') {
             $this->settings['web_path'] = substr($this->settings['web_path'], 1);
