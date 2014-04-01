@@ -14,30 +14,30 @@ class Manager
     private $cache_updated = false;
     private $loader;
     public $settings = array();
-    
-    
+
+
     private function __construct(array $settings)
     {
-        
+
         $this->settings = array_merge(array(
             'modes' => Modes::DEV,
             'assets_paths' => array(),
             'web_path' => 'assets',
         ), $settings );
-        
+
         if(substr($this->settings['web_path'],0,1) === '/') {
             $this->settings['web_path'] = substr($this->settings['web_path'], 1);
         }
-        
-        if(isset($settings['public_path'])) $this->settings['public_path'] = $settings['public_path']; 
-        
+
+        if(isset($settings['public_path'])) $this->settings['public_path'] = $settings['public_path'];
+
         if( !isset($settings['public_path']) || !file_exists($settings['public_path']) ) {
             throw new Exceptions\PublicPathNotFoundException("public path {$settings['public_path']} not found");
         }
         if( !is_writable($settings['public_path']) && !is_writable($settings['public_path'] .'/'. $this->settings['web_path'])) {
             throw new Exceptions\PublicPathNotWritableException("Can't write in public path {$settings['public_path']}");
         }
-        
+
         if( !isset($this->settings['cache_file']) ) {
             $this->settings['cache_file'] = implode( DIRECTORY_SEPARATOR, array(
                 $this->settings['public_path'],
@@ -45,19 +45,19 @@ class Manager
                 'cache.php'
             ));
         }
-        
+
         $this->loader = new Loader($this->settings['assets_paths'], $this );
-        
+
         if(isset($settings['request_handler']) && $settings['request_handler'] instanceof AbstractRequestHandler){
             $req = $settings['request_handler'];
             $req->initRequestHandler( $this );
         }
-        
+
         include_once __DIR__ . '/../functions.php';
         aphet_init( $this );
-        
+
     }
-    
+
     public static function init(array $settings)
     {
         return new self( $settings );
@@ -72,43 +72,43 @@ class Manager
     public function computeAssetsUrl($relative_path, $name = null)
     {
         if( $this->settings['modes'] & Modes::CONCAT && $name ) {
-               
+
             // $name has an extension ?
             $name_ext = $name;
             if( !in_array(File::getExt( $name ), array('.js','.css')) ) {
                 $path = is_array($relative_path)? $relative_path[0] : $relative_path;
                 $name_ext .= str_replace( 'scss', 'css', File::getExt( $path ) );
             }
-            
+
             // in cache
             if(null === $this->getCache( $name_ext ) ){
                 // compile
                 $this->setCache( $name_ext, $this->computeAsset( $relative_path, $name_ext )->getTargetPath( ) );
             }
-            
+
             $urls = array( $this->getCache( $name_ext ));
-            
+
         } else {
-            
+
             $paths = is_array( $relative_path )? $relative_path : array( $relative_path );
             foreach( $paths as $path ) {
-                
+
                 //in cache
                 if(null === $this->getCache( $path ) ){
                     // compile
                     $this->setCache( $path, $this->computeAsset( $path )->getTargetPath( ) );
                 }
-                
+
                 $urls[] = $this->getCache( $path );
 
             }
         }
-        
+
         $manager = $this;
         $urls = array_map( function( $url ) use( $manager ){
-            return $manager->settings['request_handler']->urlFor( $url );
+            return "{$manager->settings['web_path']}{$url}";
         }, $urls );
-        
+
         return is_string($relative_path) ? current($urls) : $urls;
     }
 
@@ -116,11 +116,11 @@ class Manager
     public function computeAsset( $relative_path, $name = null)
     {
         $paths = is_array($relative_path)? $relative_path : array( $relative_path );
-        
+
         if( count($paths)>1 && null === $name ) {
             throw new Exception('You have to define a name for asset collection');
         }
-        
+
         $urls = array();
         $am = new LazyAssetManager( new AssetFactory('') );
         $assets = array();
@@ -155,11 +155,11 @@ class Manager
 
             $asset->setTargetPath( $web_path );
             if( !file_exists( $this->settings['public_path'] . $this->settings['web_path'] .'/'. $asset->getTargetPath() ) ){
-                
+
                 if( $this->settings['modes'] & Modes::MINIFY ) {
                     switch ( $ext ) {
                     case '.css':
-                        $asset->ensureFilter( new \Assetic\Filter\CssMinFilter() );    
+                        $asset->ensureFilter( new \Assetic\Filter\CssMinFilter() );
                         break;
                     case '.js' :
                         $asset->ensureFilter( new \Assetic\Filter\JSMinFilter() );
@@ -173,12 +173,12 @@ class Manager
 
         return $assets[0];
     }
-    
+
     public function loader()
     {
         return $this->loader;
     }
-    
+
     private function getCache( $name = null )
     {
         if( null === $this->cache ){
@@ -196,7 +196,7 @@ class Manager
         if( null === $name ) return $this->cache;
         return isset($this->cache[$name]) ? $this->cache[$name] : null;
     }
-    
+
     private function setCache($name, $url)
     {
         $this->cache[$name] = $url;
@@ -207,7 +207,7 @@ class Manager
     {
         if( $this->settings['modes'] & Modes::CACHE && $this->cache_updated ){
             $this->cache_updated = false;
-            file_put_contents($this->settings['cache_file'], 
+            file_put_contents($this->settings['cache_file'],
                 '<?php return '.var_export( $this->cache, true ) .';' );
         }
     }

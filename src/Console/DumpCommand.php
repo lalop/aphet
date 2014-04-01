@@ -119,14 +119,16 @@ class DumpCommand extends Command
                     }
                 }while(isset($tokens[$i]));
 
-                $stringify = json_encode($args);
-                $this->output->writeln("<info>compile: {$stringify} </info>");
-                $urls = call_user_func_array(array(
-                        $this->assetManager,
-                        'computeAssetsUrl'
-                    ), $args);
-                $stringify = json_encode($urls);
-                $this->output->writeln("  ===> {$stringify}");
+                if(count($args)){
+                    $stringify = json_encode($args);
+                    $this->output->writeln("<info>compile: {$stringify} </info>");
+                    $urls = call_user_func_array(array(
+                            $this->assetManager,
+                            'computeAssetsUrl'
+                        ), $args);
+                    $stringify = json_encode($urls);
+                    $this->output->writeln("  ===> {$stringify}");
+                }
             }
             $i++;
         }
