@@ -80,13 +80,13 @@ class DumpCommand extends Command
                 $this->output->writeln("extract in {$path}");
                 $start = microtime(true);
                 $this->extractAssetMethods($path);
-                $duration = microtime(true) - $start;
+                $duration = 1000*(microtime(true) - $start);
                 $this->output->writeln("extracted in {$duration} ms");
             } else {
                 $this->output->writeln("extract in {$path}");
                 $start = microtime(true);
                 $this->twigExtractAssetMethods($path);
-                $duration = microtime(true) - $start;
+                $duration = 1000*(microtime(true) - $start);
                 $this->output->writeln("extracted in {$duration} ms");
 
             }
