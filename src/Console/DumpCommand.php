@@ -78,10 +78,17 @@ class DumpCommand extends Command
                 foreach(glob($path.'/*') as $p) $this->searchPhpFiles($p);
             } elseif ( '.php' ===  strtolower(substr($path,strrpos($path,"."))) ) {
                 $this->output->writeln("extract in {$path}");
+                $start = microtime(true);
                 $this->extractAssetMethods($path);
+                $duration = microtime(true) - $start;
+                $this->output->writeln("extracted in {$duration} ms");
             } else {
                 $this->output->writeln("extract in {$path}");
+                $start = microtime(true);
                 $this->twigExtractAssetMethods($path);
+                $duration = microtime(true) - $start;
+                $this->output->writeln("extracted in {$duration} ms");
+
             }
         }
     }
@@ -122,10 +129,12 @@ class DumpCommand extends Command
                 if(count($args)){
                     $stringify = json_encode($args);
                     $this->output->writeln("<info>compile: {$stringify} </info>");
+                    $start = microtime(true);
                     $urls = call_user_func_array(array(
                             $this->assetManager,
                             'computeAssetsUrl'
                         ), $args);
+                    $this->output->writeln((microtime(true) - $start)*1000 .' ms');
                     $stringify = json_encode($urls);
                     $this->output->writeln("  ===> {$stringify}");
                 }
@@ -136,7 +145,8 @@ class DumpCommand extends Command
 
     private function twigExtractAssetMethods( $file )
     {
-        preg_replace_callback('/aphet_[url|script|link]*\((.*)\)/', function( $match ) {
+        $output = $this->output;
+        preg_replace_callback('/aphet_[url|script|link]*\((.*)\)/', function( $match ) use ($output) {
             $match = str_replace("'",'"', $match[1]);
             $name = null;
             if(substr($match, 0,1) === '[' && substr($match, -1) !== ']'){
@@ -146,7 +156,12 @@ class DumpCommand extends Command
                 $name = json_decode(str_replace("'",'"',$split[1]));
             }
             $urls = json_decode($match);
-            $this->assetManager->computeAssetsUrl($urls,$name);
+            $output->writeln("<info>compile: {$match} </info>");
+            $start = microtime(true);
+            $urls = $this->assetManager->computeAssetsUrl($urls,$name);
+            $output->writeln((microtime(true) - $start)*1000 .' ms');
+            $stringify = json_encode($urls);
+            $output->writeln("  ===> {$stringify}");
         },  file_get_contents($file ) );
     }
 
