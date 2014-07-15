@@ -121,7 +121,6 @@ class Manager
             throw new Exception('You have to define a name for asset collection');
         }
 
-        $urls = array();
         $am = new LazyAssetManager( new AssetFactory('') );
         $assets = array();
         $asset_collection = new AssetCollection();

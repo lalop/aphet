@@ -2,3 +2,5 @@
 .settings
 vendor
 composer.lock
+.DS_Store
+.idea
