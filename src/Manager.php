@@ -107,7 +107,9 @@ class Manager
 
         $manager = $this;
         $urls = array_map( function( $url ) use( $manager ){
-            return "/{$manager->settings['web_path']}/{$manager->settings['compiled_dir']}/{$url}";
+            return '/'.
+                    ($manager->settings['web_path']? "{$manager->settings['web_path']}/" : '') .
+                    "{$manager->settings['compiled_dir']}/{$url}";
         }, $urls );
 
         return is_string($relative_path) ? current($urls) : $urls;
