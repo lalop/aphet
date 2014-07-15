@@ -22,7 +22,8 @@ class Manager
         $this->settings = array_merge(array(
             'modes' => Modes::DEV,
             'assets_paths' => array(),
-            'web_path' => 'assets',
+            'compiled_dir' => 'assets',
+            'web_path' => ''
         ), $settings);
 
         if(substr($this->settings['web_path'],0,1) === '/') {
@@ -106,7 +107,7 @@ class Manager
 
         $manager = $this;
         $urls = array_map( function( $url ) use( $manager ){
-            return "/{$manager->settings['web_path']}/{$url}";
+            return "/{$manager->settings['web_path']}/{$manager->settings['compiled_dir']}/{$url}";
         }, $urls );
 
         return is_string($relative_path) ? current($urls) : $urls;
@@ -153,7 +154,7 @@ class Manager
             $web_path = implode( '/', $target_path ) ;
 
             $asset->setTargetPath( $web_path );
-            if( !file_exists( $this->settings['public_path'] . $this->settings['web_path'] .'/'. $asset->getTargetPath() ) ){
+            if( !file_exists( $this->settings['public_path'] .'/'. $this->settings['compiled_dir'] .'/'. $asset->getTargetPath() ) ){
 
                 if( $this->settings['modes'] & Modes::MINIFY ) {
                     switch ( $ext ) {
@@ -165,7 +166,7 @@ class Manager
                         break;
                     }
                 }
-                $writer = new AssetWriter( $this->settings['public_path'] .'/'. $this->settings['web_path'] );
+                $writer = new AssetWriter( $this->settings['public_path'] .'/'. $this->settings['compiled_dir'] );
                 $writer->writeAsset( $asset );
             }
         }
