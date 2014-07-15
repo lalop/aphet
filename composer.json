@@ -2,9 +2,9 @@
 	"name": "lalop/aphet",
 	"require": {
 		"php": ">=5.4",
-		"symfony/console": "2.2.*@dev",
+		"symfony/console": "~2",
 		"leafo/scssphp": "dev-master",
-		"kriswallsmith/assetic": "dev-master",
+		"kriswallsmith/assetic": "~1",
 		"natxet/CssMin": "3.*",
 		"mrclay/minify": "2.*"
 	},
