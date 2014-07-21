@@ -74,7 +74,7 @@ class DumpCommand extends Command
     {
         if (!in_array($path, array('/','../','..')) && file_exists($path)){
             if(is_dir(($path))){
-                 //array_map(array($this,__FUNCTION__), glob($path.'/*'));
+                //array_map(array($this,__FUNCTION__), glob($path.'/*'));
                 foreach(glob($path.'/*') as $p) $this->searchPhpFiles($p);
             } elseif ( '.php' ===  strtolower(substr($path,strrpos($path,"."))) ) {
                 $this->output->writeln("extract in {$path}");
@@ -118,11 +118,17 @@ class DumpCommand extends Command
                             if($token === ')') break;
                             elseif ($token[0]===T_CONSTANT_ENCAPSED_STRING) {
                                 $list[] = $this->cleanString($token[1]);
+                            }elseif ($token[0]===T_VARIABLE){
+                                $args = array();
+                                continue 3;
                             }
                         }while(isset($tokens[$i]));
                         $args[] = $list;
                     } elseif ($token[0]===T_CONSTANT_ENCAPSED_STRING) {
                         $args[] = $this->cleanString($token[1]);
+                    } elseif ($token[0]===T_VARIABLE){
+                        $args = array();
+                        continue 2;
                     }
                 }while(isset($tokens[$i]));
 
@@ -131,9 +137,9 @@ class DumpCommand extends Command
                     $this->output->writeln("<info>compile: {$stringify} </info>");
                     $start = microtime(true);
                     $urls = call_user_func_array(array(
-                            $this->assetManager,
-                            'computeAssetsUrl'
-                        ), $args);
+                        $this->assetManager,
+                        'computeAssetsUrl'
+                    ), $args);
                     $this->output->writeln((microtime(true) - $start)*1000 .' ms');
                     $stringify = json_encode($urls);
                     $this->output->writeln("  ===> {$stringify}");
