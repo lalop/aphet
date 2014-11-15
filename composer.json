@@ -2,10 +2,10 @@
 	"name": "lalop/aphet",
 	"require": {
 		"php": ">=5.4",
-		"symfony/console": "~2",
-		"leafo/scssphp": "dev-master",
-		"kriswallsmith/assetic": "~1",
-		"natxet/CssMin": "3.*",
+		"symfony/console": "~2.0",
+		"leafo/scssphp": "~0.1.1",
+		"kriswallsmith/assetic": "~1.0",
+		"natxet/CssMin": "~3.0",
 		"mrclay/minify": "2.*"
 	},
     "autoload": {
