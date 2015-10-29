@@ -3,7 +3,7 @@
 	"require": {
 		"php": ">=5.4",
 		"symfony/console": "~2.0",
-		"leafo/scssphp": "~0.1.1",
+		"leafo/scssphp": "~0.3",
 		"kriswallsmith/assetic": "~1.0",
 		"natxet/CssMin": "~3.0",
 		"mrclay/minify": "2.*"
