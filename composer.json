@@ -1,6 +1,7 @@
 {
 	"name": "lalop/aphet",
-	"description": "Aphet is an asset pipeline 100% php dependant and with the less configuration possible",
+	"description": "Aphet is an asset pipeline 100% php dependent and with the less configuration possible",
+ 	"license": "MIT",
 	"require": {
 		"php": ">=5.4",
 		"symfony/console": "~2.0",
