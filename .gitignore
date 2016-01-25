@@ -1,5 +1,2 @@
-.project
-.settings
 vendor
 composer.lock
-.idea

@@ -3,7 +3,6 @@
 namespace Aphet\Console;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -74,7 +73,6 @@ class DumpCommand extends Command
     {
         if (!in_array($path, array('/','../','..')) && file_exists($path)){
             if(is_dir(($path))){
-                //array_map(array($this,__FUNCTION__), glob($path.'/*'));
                 foreach(glob($path.'/*') as $p) $this->searchPhpFiles($p);
             } elseif ( '.php' ===  strtolower(substr($path,strrpos($path,"."))) ) {
                 $this->output->writeln("extract in {$path}");
@@ -102,7 +100,6 @@ class DumpCommand extends Command
             $token = $tokens[$i];
 
             if( $token[0] === T_STRING && strpos($token[1],'aphet_') === 0 ){
-                $function = $token[1];
                 $args = array();
                 $i++; // on passe la parenthèse ouvrante
                 do{
